@@ -15,6 +15,7 @@ const speeding = (speed) => {
       }
     }
   };
+  
   //Lets test the function with different speeds.
   speeding(80); // Points awarded : 2.
   speeding(100); // Points awarded: 6.
