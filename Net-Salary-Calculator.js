@@ -26,7 +26,6 @@ const calculateNssftax =(basicSalary) =>{
 }
 
 // Get input from user
-
 let benefits = Number(prompt("Enter your benefits: "));
 
 // Function to calculate gross salary
@@ -34,7 +33,6 @@ let benefits = Number(prompt("Enter your benefits: "));
 const calculateGrosspay =(basicSalary, benefits) =>{
   return basicSalary + benefits;
 }
-
 // Function to calculate net salary
 const calculateNetpay =(grossSalary) =>{
   let kraTax = calculateKratax(grossSalary);
