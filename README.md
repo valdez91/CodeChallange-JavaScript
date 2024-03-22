@@ -1,4 +1,4 @@
-# CodeChallange-JavaScript
+# CodeChallange-JavaScript.
 
 ### Project Setup
 
@@ -13,6 +13,8 @@ To run any of the code snippets from the CodeChallange-JavaScript repository, yo
     cd Project1 # for Project1: Grade Generator
 
     cd Project2 # for Project2: speed-Detector
+
+    cd Project3 # for Project3: Net-Salary-Calculator
 
 4.  Open the project in your preferred text editor or IDE.
 5.  Compile and run the code as needed.
@@ -59,4 +61,4 @@ Overall, the code is well-structured, well-documented, and follows best practice
 
 ### Author & License
 
-This project is licensed under the MIT License. The code was written by me,VICTOR K. KEMBOI, and is available on GitHub at https://github.com/valdez91/CodeChallange-JavaScript
+This project is licensed under the MIT License. The code was written by me,VICTOR K. KEMBOI, and is available on GitHub at https://github.com/valdez91/CodeChallange-JavaScript.
