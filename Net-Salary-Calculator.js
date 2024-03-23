@@ -1,3 +1,4 @@
+//Basic salary => gross salary+benefits(grossSalary-kraTax - nhifTax - nssfTax)
 //tax rates in percentage
 const kraTaxRate = 10.0;
 const nhifTaxRate = 1.5; 
