@@ -30,6 +30,7 @@ let benefits = Number(prompt("Enter your benefits: "));
 
 // Function to calculate gross salary
 //Defined a function calculateGrosspay with two parameters basicSalary and benefits.
+//benefits argument is used to add any additional benefits to the gross salary. 
 const calculateGrosspay =(basicSalary, benefits) =>{
   return basicSalary + benefits;
 }
