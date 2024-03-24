@@ -21,9 +21,22 @@ To run any of the code snippets from the CodeChallange-JavaScript repository, yo
     cd Project3 # for Project3: Net-Salary-Calculator
 
 4.  Open the project in your preferred text editor or IDE.
+
 5.  Compile and run the code as needed.
 
 Note that these steps are general and may vary depending on your specific setup and preferences.
+
+### Running code using inde.html file.
+
+1.Open the "inde.html" file in a web browser.
+
+2.If the file is located in the same directory as the other project files, you can simply open it in your browser.
+
+3.Once the file is opened, you should see a user interface with a form or prompt that allows you to enter the necessary information.
+
+4.Once you've entered the required information, click the "Submit" button or press enter to run the code.
+
+5.The output should be displayed on the page
 
 ## Project1: Grade Generator.
 
