@@ -1,5 +1,6 @@
 //Basic salary => gross salary+benefits(grossSalary-kraTax - nhifTax - nssfTax)
 //tax rates in percentage
+const prompt = require("prompt-sync")({ sigint: true });
 const kraTaxRate = 10.0;
 const nhifTaxRate = 1.5; 
 const nssfTaxRate = 5.5; 
