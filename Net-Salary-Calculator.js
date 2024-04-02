@@ -1,136 +1,156 @@
+//Declaring Prompt
+const prompt  = require("prompt-sync")({sigint: true});
 
-//tax rates in percentage
-const prompt = require("prompt-sync")({ sigint: true });
+//Getting inputs for Monthly Basic Salary and Monthly Contibution Benefits of the user
+let monthlyBasicSalary = parseInt(prompt("Enter your Monthly Basic Salary: "));
+let monthlyContributionBenefit = parseInt(prompt("Enter Monthly Contribution Benefit: "));
 
-
-// Get input from user
-let basicSalary = Number(prompt("Enter your basic salary: "));
-// Get input from user
-let benefits = Number(prompt("Enter your benefits: "));
-
-let grossSalary = basicSalary + benefits;
-// Function to calculate KRA tax
-
-
-
-// Function to calculate NHIF tax.
-
-const calculateNhiftax =(grossSalary) => {
-  let nhifTaxRate = 0;
-
-  if(grossSalary <= 5999){
-    return 150;
-}
-else if(grossSalary >= 6000 && grossSalary <= 7999){
-    return 300;
-}
-else if(grossSalary >= 8000 && grossSalary <= 11999){
-    return 400;
-}
-else if(grossSalary >= 12000 && grossSalary <= 14999){
-    return 500;
-}
-else if(grossSalary >= 15000 && grossSalary <= 19999){
-    return 600;
-}
-else if(grossSalary >= 20000 && grossSalary <= 24999){
-    return 750;
-}
-else if(grossSalary >= 25000 && grossSalary <= 29999){
-    return 850;
-}
-else if(grossSalary >= 30000 && grossSalary <= 34999){
-    return 900;
-}
-else if(grossSalary >= 35000 && grossSalary <= 39999){
-    return 950;
-}
-else if(grossSalary >= 40000 && grossSalary <= 44999){
-    return 1000;
-}
-else if(grossSalary >= 45000 && grossSalary <= 49999){
-    return 1100;
-}
-else if(grossSalary >= 50000 && grossSalary <= 59999){
-    return 1200;
-}
-else if(grossSalary >= 60000 && grossSalary <= 69999){
-    return 1300;
-}
-else if(grossSalary >= 70000 && grossSalary <= 79999){
-    return 1400;
-}
-else if(grossSalary >= 80000 && grossSalary <= 89999){
-    return 1500;
-}
-else if(grossSalary >= 90000 && grossSalary <= 99999){
-    return 1600;
-}
-else{
-    return 1700;
-}
+//Validating Inputs
+while (isNaN(monthlyBasicSalary) || isNaN(monthlyContributionBenefit) || monthlyBasicSalary < 0 || monthlyContributionBenefit < 0){
+    monthlyBasicSalary = parseInt(prompt("Enter your Monthly Basic Salary: "));
+    monthlyContributionBenefit = parseInt(prompt("Enter your Monthly Contribution Benefit: "));
 }
 
+//Calculating Monthly Gross Salary
+let GrossSalary = monthlyBasicSalary + monthlyContributionBenefit;
 
-// Function to calculate NSSF tax
+//Calculating Housing Levy
+const housingLevy = (0.015 * GrossSalary);
 
-const calculateNssftax =(basicSalary) =>{
-  let nssfTax =0;
-    //tier 1 deduction is compulsory for everyone
-    let tier1Deduction = 0.06 * 7000;
-  
-    let tier2Deduction;
-    if (basicSalary < 36000){
-        tier2Deduction = (basicSalary -7000) * 0.06;
+//Input for Personal Relief
+let personalRelief = 2400;
+
+//Validating Personal Relief input
+while (isNaN(personalRelief) || personalRelief < 0){
+    personalRelief = parseInt(prompt("Enter your Personal Relief"));
+}
+//Calculating Monthly Taxable Income
+let monthlyTaxableIncome = GrossSalary - personalRelief;
+
+//Calculating PAYE
+ taxCalculator =(monthlyTaxableIncome) =>{
+    let taxRate;
+    if (monthlyTaxableIncome < 24000){
+        taxRate = 0.1; // 10% tax for income up to KES 24,000
+
     }
-    
-    else {
-        tier2Deduction = (36000 - 7000) * 0.06;
+   else if  (monthlyTaxableIncome >= 24000 && monthlyTaxableIncome <= 32333){
+        taxRate = 0.25; // 25% tax for income between KES 24,000 and KES 32,333
     }
-    
-    return tier1Deduction + tier2Deduction;
-} 
-
-
-const calculateKratax=(grossSalary) => {
-  let kraTaxRate = 0;
-// Calculate PAYE based on taxable income
-if (grossSalary <= 24000) {
-  kraTaxRate = grossSalary* 0.01;
-  return kraTaxRate;
-} else if (grossSalary > 24000 && grossSalary<= 32333) {
-  kraTaxRate = 2400 + (grossSalary - 24000)* 0.25;
-  return kraTaxRate;
-} else if (grossSalary > 32333 && grossSalary<= 500000) {
-  kraTaxRate = 7833.25 +(grossSalary - 32333)* 0.30;
-  return kraTaxRate;
-} else if (grossSalary > 500000 && grossSalary <= 800000) {
-  kraTaxRate = 150000 + (grossSalary - 500000)* 0.325;
-  return kraTaxRate;
-} else {
-  kraTaxRate = 280000 + (grossSalary - 800000)* 0.35;
-  return kraTaxRate;
+    else if (monthlyTaxableIncome > 32333 && monthlyTaxableIncome <= 500000){
+        taxRate = 0.3; // 30% tax for income between KES 32,333 and KES 50,000
+    }
+    else if (monthlyTaxableIncome > 500000 && monthlyTaxableIncome <= 800000){
+        taxRate = 0.325; // 32.5% tax for income between KES 50,000 and KES 80,000
+    }
+    else if (monthlyTaxableIncome > 800000){
+        taxRate = 0.35; // 35% tax for income above KES 80,000
+    }
+    let taxPayable = monthlyTaxableIncome * taxRate;
+    return taxPayable; 
 }
+let taxPayable = Math.round(taxCalculator(monthlyTaxableIncome));
+
+//Calculating NHIF Deductions
+// defines a function called nhifCalculator that takes in one argument, GrossSalary.
+let nhifCalculator = (GrossSalary) =>{
+    // This variable will be used to store the NHIF deduction amount.
+    let nhifDeduction;
+    // This if-else statement assigns the NHIF deduction amount based on the GrossSalary.
+    if (GrossSalary <= 5999){
+        nhifDeduction = 150;
+    }
+    // This if-else statement assigns the NHIF deduction amount based on the GrossSalary.
+    else if (GrossSalary >= 6000 && GrossSalary <= 7999){
+        nhifDeduction = 300; //  assigning a NHIF deduction of 300 if the GrossSalary is between 6000 and 7999.
+    }
+    else if (GrossSalary >= 8000 && GrossSalary <= 11999){
+        nhifDeduction = 400; //  assigning a NHIF deduction of 400 if the GrossSalary is between 8000 and 11999.
+    }
+    else if (GrossSalary >= 12000 && GrossSalary <= 14999){
+        nhifDeduction = 500; //  assigning a NHIF deduction of 500 if the GrossSalary is between 12000 and 14999.
+    }
+    else if (GrossSalary >= 15000 && GrossSalary <= 19999){
+        nhifDeduction = 600; //  assigning a NHIF deduction of 600 if the GrossSalary is between 15000 and 19999.
+    }
+    else if (GrossSalary >= 20000 && GrossSalary <= 24999){
+        nhifDeduction = 750; //  assigning a NHIF deduction of 750 if the GrossSalary is between 20000 and 24999.
+    }
+    else if (GrossSalary >= 25000 && GrossSalary <= 29999){
+        nhifDeduction = 850; //  assigning a NHIF deduction of 850 if the GrossSalary is between 25000 and 29999.
+    }
+    else if (GrossSalary >= 30000 && GrossSalary <= 34999){
+        nhifDeduction = 900; //  assigning a NHIF deduction of 900 if the GrossSalary is between 30000 and 34999.
+    }
+    else if (GrossSalary >= 35000 && GrossSalary <= 39999){
+        nhifDeduction = 950; //  assigning a NHIF deduction of 950 if the GrossSalary is between 35000 and 39999.
+    }
+    else if (GrossSalary >= 40000 && GrossSalary <= 44999){
+        nhifDeduction = 1000; //  assigning a NHIF deduction of 1000 if the GrossSalary is between 40000 and 44999.
+    }
+    else if (GrossSalary >= 45000 && GrossSalary <= 49999){
+        nhifDeduction = 1100; //  assigning a NHIF deduction of 1100 if the GrossSalary is between 45000 and 49999.
+    }
+    else if (GrossSalary >= 50000 && GrossSalary <= 59999){
+        nhifDeduction = 1200; //  assigning a NHIF deduction of 1200 if the GrossSalary is between 50000 and 59999.
+    }
+    else if (GrossSalary >= 60000 && GrossSalary <= 69999){
+        nhifDeduction = 1300; //  assigning a NHIF deduction of 1300 if the GrossSalary is between 60000 and 69999.
+    }
+    else if (GrossSalary >= 70000 && GrossSalary <= 79999){
+        nhifDeduction = 1400; //  assigning a NHIF deduction of 1400 if the GrossSalary is between 70000 and 79999.
+    }
+    else if (GrossSalary >= 80000 && GrossSalary <= 89999){
+        nhifDeduction = 1500; //  assigning a NHIF deduction of 1500 if the GrossSalary is between 80000 and 89999.
+    }
+    else if (GrossSalary >= 90000 && GrossSalary <= 99999){
+        nhifDeduction = 1600; //  assigning a NHIF deduction of 1600 if the GrossSalary is between 90000 and 99999.
+    }
+    else if (GrossSalary >= 100000){
+        nhifDeduction = 1700; //  assigning a NHIF deduction of 1700 if the GrossSalary is greater than 100000.
+    }
+    return nhifDeduction;
 }
+let nhifDeduction = nhifCalculator(GrossSalary);
+
+//Declaring NSSF Tiers
+let pensionTier = prompt("Enter your pension tier (Tier 1 or Tier 2): ");
+
+// Validating pension  Tier
+while (pensionTier !== "Tier 1" && pensionTier !== "Tier 2"){
+    pensionTier = prompt("Enter your pension tier (Tier 1 or Tier 2): ");
+    }
 
 
+//Calculating NSSF Contribution
+const calculateNssftax =(pensionTier) =>{
+    let nssfTax =0;
+      //tier 1 deduction is compulsory for everyone
+      let tier1Deduction = 0.06 * 7000;
+    // The tier 2 deduction is calculated based on the income.
+      let tier2Deduction;
+      if (pensionTier < 36000){
+          tier2Deduction = (pensionTier -7000) * 0.06;
+      }
+      
+      else {
+          tier2Deduction = (36000 - 7000) * 0.06;
+      }
+      
+      return tier1Deduction + tier2Deduction;
+  } 
+  // The function takes the pension tier as an argument and returns the employee contribution.
+let employeeContribution = parseInt(calculateNssftax (pensionTier));
 
-// Function to calculate net salary
-const calculateNetSalary = (basicSalary, benefits, kraTax, nhifTax, nssfTax) => {
-  return grossSalary - kraTax - nhifTax - nssfTax ;
-};
+//Calculating Net Salary
+let netSalary = GrossSalary - taxPayable - nhifDeduction - housingLevy - employeeContribution;
 
-// Calculate the KRA tax, NHIF tax, and NSSF tax
-let kraTax = calculateKratax(grossSalary);
-let nhifTax = calculateNhiftax(grossSalary);
-let nssfTax = calculateNssftax(grossSalary);
-
-// Calculate net salary
-let netSalary = calculateNetSalary(basicSalary, benefits, kraTax, nhifTax, nssfTax);
-
-// Display the KRA tax, NHIF tax, NSSF tax, and net salary
-console.log("KRA tax: KES " + kraTax);
-console.log("NHIF tax: KES " + nhifTax);
-console.log("NSSF tax: KES " + nssfTax);
-console.log("Your net salary is KES " + netSalary);
-console.log("Total deductions: KES " + (kraTax + nhifTax + nssfTax));
+//Output of the Results
+function Results(){
+//console.log("Your Gross Salary is " + monthlyGrossSalary)
+//console.log("Your Tax Payable is " + taxPayable)
+console.log("Your NHIF Deduction: KES " + nhifDeduction)
+console.log("Your NSSF Contibution: KES " + employeeContribution)
+console.log("Your Net Salary: KES " + netSalary)
+}
+Results();
